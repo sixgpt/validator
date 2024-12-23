@@ -10,6 +10,7 @@ from my_proof.wikipedia.verify_content import WikipediaSummarization
 from my_proof.sixgpt import evaluate_question, evaluate_answer, get_uniqueness_score
 
 MIN_NUMBER_OF_EXAMPLES = 50
+MAX_NUMBER_OF_EXAMPLES = 50
 
 def choose_random_example(examples: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     number_of_examples_to_choose = len(examples) // MIN_NUMBER_OF_EXAMPLES
@@ -37,6 +38,11 @@ class Proof:
         logging.info(f"Extracted {len(extracted_data)} examples. {extracted_data}")
         number_examples = len(extracted_data)
         if number_examples < MIN_NUMBER_OF_EXAMPLES:
+            self.set_nil()
+            return number_examples, 0
+
+        # tmp: max 50 examples
+        if number_examples > MAX_NUMBER_OF_EXAMPLES:
             self.set_nil()
             return number_examples, 0
 
