@@ -33,16 +33,18 @@ class Proof:
     def proof(self, input_file: str):
         extracted_data = extract_data(input_file)
         if not validate_json_structure(extracted_data):
+            logging.info(f"Invalid Data Format")
             self.set_nil()
             return 0, 0
         logging.info(f"Extracted {len(extracted_data)} examples. {extracted_data}")
         number_examples = len(extracted_data)
         if number_examples < MIN_NUMBER_OF_EXAMPLES:
+            logging.info(f"Not enough examples")
             self.set_nil()
             return number_examples, 0
 
-        # tmp: max 50 examples
         if number_examples > MAX_NUMBER_OF_EXAMPLES:
+            logging.info(f"Too many examples")
             self.set_nil()
             return number_examples, 0
 
@@ -58,6 +60,7 @@ class Proof:
                 similarity = len(set_content.intersection(set_example)) / len(set_content.union(set_example)) if set_content.union(set_example) else 0
                 logging.info(f"Similarity: {similarity}")
                 if (similarity < 0.5):
+                    print(f"Similarity too low: {similarity}")
                     self.set_nil()
                     return number_examples, number_sampled
 
