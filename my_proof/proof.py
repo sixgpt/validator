@@ -96,7 +96,7 @@ class Proof:
         # Calculate overall score and validity
         total_score = (0.8 * self.proof_response.quality + 0.2 * self.proof_response.uniqueness) * self.proof_response.authenticity
         self.proof_response.score = min(total_score * number_examples / 10_000, 1)
-        self.proof_response.valid = self.proof_response.score > 0.1
+        self.proof_response.valid = total_score > 0.1
 
         # Additional (public) properties to include in the proof about the data
         self.proof_response.attributes = {
