@@ -9,11 +9,12 @@ from my_proof.models.proof_response import ProofResponse
 from my_proof.wikipedia.verify_content import WikipediaSummarization
 from my_proof.sixgpt import evaluate_question, evaluate_answer, get_uniqueness_score
 
-MIN_NUMBER_OF_EXAMPLES = 50
+MIN_NUMBER_OF_EXAMPLES = 5
+EXAMPLES_PER_API_CALL = 50
 MAX_NUMBER_OF_EXAMPLES = 150
 
 def choose_random_example(examples: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    number_of_examples_to_choose = len(examples) // MIN_NUMBER_OF_EXAMPLES
+    number_of_examples_to_choose = max(len(examples) // EXAMPLES_PER_API_CALL, 1)
     return random.sample(examples, number_of_examples_to_choose)
 
 class Proof:
